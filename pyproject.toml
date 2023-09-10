@@ -1,7 +1,7 @@
 [project]
 name = "accilanews-webscraping"
 version = "0.1.0"
-description = "Add your description here"
+description = "Scraping http://www.bmatraffic.com/ using urllib3"
 dependencies = [
     "selenium>=4.12.0",
     "matplotlib>=3.7.2",
