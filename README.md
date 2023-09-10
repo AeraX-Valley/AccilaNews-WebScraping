@@ -1,3 +1,3 @@
 # accilanews-webscraping
 
-Describe your project here.
+### Scraping [bmatraffic](http://www.bmatraffic.com/) using urllib3
