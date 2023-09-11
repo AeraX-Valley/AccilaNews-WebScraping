@@ -1,3 +1,7 @@
+import logging
+import time
+import re
+
 # import matplotlib.image as mpimg
 # import matplotlib.pyplot as plt
 # from PIL import Image
@@ -5,10 +9,6 @@ import numpy as np
 import urllib3
 import cv2
 
-import logging
-import time
-import io
-import re
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -17,7 +17,8 @@ logging.basicConfig(
 http = urllib3.PoolManager()
 
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+          (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
 }
 
 
@@ -32,7 +33,7 @@ def get_cookies(number: int = 1):
         if resp.status == 200:
             cookies.append(
                 re.match(
-                    "ASP\.NET_SessionId=([a-zA-Z0-9]+);", resp.headers["Set-Cookie"]
+                    r"ASP.NET_SessionId=([a-zA-Z0-9]+);", resp.headers["Set-Cookie"]
                 )[1]
             )
         else:
@@ -53,7 +54,8 @@ def set_camera(camera_id: list[str], cookies: list[str]):
     zipped = zip(camera_id, cookies)
     for i, (id, cookie) in enumerate(zipped):
         headers_with_cookie = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+                (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
             "Cookie": f"ASP.NET_SessionId={cookie}",
         }
 
@@ -80,7 +82,8 @@ def get_camera_image(cookies: list[str]):
     image_list = []
     for i, cookie in enumerate(cookies):
         headers_with_cookie = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
+                (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
             "Cookie": f"ASP.NET_SessionId={cookie}",
         }
 
