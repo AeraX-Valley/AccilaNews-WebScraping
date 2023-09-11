@@ -1,7 +1,7 @@
 [project]
 name = "detection"
 version = "0.1.0"
-description = "Add your description here"
+description = "Using Selenium Screenshot on Detecting"
 authors = [
     { name = "microhum", email = "Guntee12123@gmail.com" }
 ]
