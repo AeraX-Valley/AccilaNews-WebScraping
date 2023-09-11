@@ -11,7 +11,7 @@ reloaded = tf.saved_model.load("accilanews_resnet_model_95")
 driver.set_window_size(400, 400)
 tick = 0
 
-def predict(img, threshold = 85):
+def predict(img, threshold = 90):
     # img_path = "dataset/test/Accident/test24_30.jpg"
     img = np.expand_dims(tf.keras.utils.img_to_array(img), axis=0)
     start_time = time.time()
