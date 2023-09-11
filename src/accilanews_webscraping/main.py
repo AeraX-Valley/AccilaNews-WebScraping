@@ -14,7 +14,7 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-http = urllib3.PoolManager()
+http = urllib3.PoolManager(num_pools=30)
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
@@ -44,7 +44,7 @@ def get_cookies(number: int = 1):
                 f"Check in failed. status code: {resp.status} loop number: {i}"
             )
 
-        time.sleep(0.5)
+        time.sleep(0.1)
 
     logging.info(f"Get cookie successfully. number: {number}")
     return cookies
@@ -73,7 +73,7 @@ def set_camera(camera_id: list[str], cookies: list[str]):
                 f"Set camera failed. status code: {resp.status} loop number: {i}"
             )
 
-        time.sleep(0.5)
+        time.sleep(0.1)
 
     logging.info(f"Set camera successfully. number: {len(camera_id)}")
 
@@ -92,9 +92,12 @@ def get_camera_image(cookies: list[str]):
         )
 
         if resp.status == 200:
-            logging.info(f"Get camera image successfully. status code: {resp.status}")
-            img = np.asarray(bytearray(resp.data), dtype="uint8")
-            img = cv2.imdecode(img, cv2.IMREAD_COLOR)
+            if resp.data == b"":
+                img = np.zeros((266, 400, 3), np.uint8)
+                logging.warning(f"Get camera image failed. Skipping. loop number: {i}")
+            else:
+                img = np.asarray(bytearray(resp.data), dtype="uint8")
+                img = cv2.imdecode(img, cv2.IMREAD_COLOR)
             image_list.append(np.array(img))
         else:
             logging.error(
@@ -104,22 +107,27 @@ def get_camera_image(cookies: list[str]):
                 f"Get camera image failed. status code: {resp.status} loop number: {i}"
             )
 
+    logging.info(f"Get camera image successfully. number: {len(cookies)}")
+
     return image_list
 
 
-kies = get_cookies(2)
+camera = ["536", "619", "1703"]
+
+
+kies = get_cookies(len(camera))
 print(kies)
 
-set_camera(["1659", "1753"], kies)
+set_camera(camera, kies)
 
 while True:
     images = get_camera_image(kies)
 
-    for i, image in enumerate(images):
-        cv2.imshow(f"Image {i}", image)
+    # for i, image in enumerate(images):
+    #     cv2.imshow(f"Image {i}", image)
 
-    if cv2.waitKey(1) == 27:
-        cv2.destroyAllWindows()
-        break
+    # if cv2.waitKey(1) == 27:
+    #     cv2.destroyAllWindows()
+    #     break
 
     time.sleep(1)

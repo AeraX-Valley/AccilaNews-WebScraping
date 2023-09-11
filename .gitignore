@@ -9,6 +9,7 @@ wheels/
 *.jpg
 .vscode/
 .DS_Store
+tokens.txt
 
 # venv
 .venv
