@@ -8,6 +8,7 @@
 
 -e file:.
 absl-py==1.4.0
+anyio==4.0.0
 astunparse==1.6.3
 attrs==23.1.0
 beautifulsoup4==4.12.2
@@ -27,6 +28,8 @@ google-pasta==0.2.0
 grpcio==1.58.0
 h11==0.14.0
 h5py==3.9.0
+httpcore==0.18.0
+httpx==0.25.0
 idna==3.4
 keras==2.13.1
 kiwisolver==1.4.5

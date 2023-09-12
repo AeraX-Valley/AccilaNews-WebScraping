@@ -1,3 +1,3 @@
 # accilanews-webscraping
 
-### Scraping [bmatraffic](http://www.bmatraffic.com/) using urllib3
+### Scraping [bmatraffic](http://www.bmatraffic.com/) asynchronously using HTTPX
