@@ -17,6 +17,7 @@ headers = {
           (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
 }
 
+
 # this can't be more optimized
 async def get_cookies(number: int = 1):
     cookies = []
@@ -110,7 +111,7 @@ async def get_camera_image(cookies: list[str]):
             for resp in resps:
                 if resp.content == b"":
                     logging.warning("Got empty image.")
-                    image_list.apppend(np.zeros((266, 400, 3), dtype=np.uint8))
+                    image_list.append(np.zeros((266, 400, 3), dtype=np.uint8))
                 else:
                     image = np.asarray(bytearray(resp.content), dtype="uint8")
                     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
@@ -122,9 +123,7 @@ async def get_camera_image(cookies: list[str]):
 
 async def main():
     camera = [
-        "1651",
-        "1638",
-        "1639",
+        "1651", "1638", "1639"
     ]
 
     kies = await get_cookies(len(camera))
@@ -135,12 +134,12 @@ async def main():
     while True:
         images = await get_camera_image(kies)
 
-        # for i, image in enumerate(images):
-        #     cv2.imshow(f"Image {i}", image)
+        for i, image in enumerate(images):
+            cv2.imshow(f"Image {i}", image)
 
-        # if cv2.waitKey(1) == 27:
-        #     cv2.destroyAllWindows()
-        #     break
+        if cv2.waitKey(1) == 27:
+            cv2.destroyAllWindows()
+            break
 
         await asyncio.sleep(1)
 
